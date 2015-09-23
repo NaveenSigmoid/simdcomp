@@ -28,7 +28,7 @@ size_t compress(uint32_t * datain, size_t length, uint8_t * buffer) {
 
 
 int main() {
-    int REPEAT = 10, gap;
+    size_t REPEAT = 10, gap;
     size_t N = 1000000 * SIMDBlockSize;/* SIMDBlockSize is 128 */
     uint32_t * datain = malloc(N * sizeof(uint32_t));
     size_t compsize;
@@ -36,13 +36,13 @@ int main() {
     uint8_t * buffer = malloc(N * sizeof(uint32_t) + N / SIMDBlockSize); /* output buffer */
     uint32_t * backbuffer = malloc(SIMDBlockSize * sizeof(uint32_t));
     for (gap = 1; gap <= 243; gap *= 3) {
-        int k, repeat;
+        size_t k, repeat;
         uint32_t offset = 0;
         uint32_t bogus = 0;
         double numberofseconds;
 
     	printf("\n");
-        printf(" gap = %u \n", gap);
+        printf(" gap = %lu \n", gap);
         datain[0] = 0;
         for (k = 1; k < N; ++k)
             datain[k] = datain[k-1] + ( rand() % (gap + 1) );
